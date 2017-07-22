@@ -4,6 +4,15 @@
 .table-header {
   border-bottom: 2px solid black;
   margin-bottom: 1rem;
+  display: flex;
+  flex-flow: row nowrap;
+  font-weight: bold;
+  padding: .5rem;
+}
+
+.table-header-column,
+.table-column {
+  flex: 1 1 auto;
 }
 
 .table-footer {

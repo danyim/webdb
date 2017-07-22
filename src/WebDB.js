@@ -1,21 +1,23 @@
+// import idb from 'idb'
+
 class WebDB {
-  constructor() {
-    this.request = null
-  }
-
-  open = db => {
-    this.request = window.indexedDB.open('MyTestDatabase', 3)
-  }
-
-  checkIfSupported = () => {
-    if (!window || !window.indexedDB) {
-      window.alert(
-        "Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available."
-      )
+  static checkIfSupported = () => {
+    if (!('indexedDB' in window)) {
+      console.err("This browser doesn't support IndexedDB")
       return false
     }
     return true
   }
+
+  constructor() {
+    this.request = null
+  }
+
+  // open = dbName => {
+  //   return idb.open(dbName, 1, upgradeDB => {
+
+  //   })
+  // }
 
   registerHandler = (event, handler) => {
     if (!this.request) console.err('Must open a database first')

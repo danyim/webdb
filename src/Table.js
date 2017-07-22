@@ -5,7 +5,8 @@ import './Table.css'
 
 class Table extends Component {
   static propTypes = {
-    rows: PropTypes.array.isRequired
+    rows: PropTypes.array.isRequired,
+    name: PropTypes.string
   }
 
   static defaultProps = {
@@ -15,7 +16,11 @@ class Table extends Component {
   render() {
     return (
       <div className="table">
-        <div className="table-header" />
+        {this.props.name}
+        <div className="table-header">
+          <div className="table-header-column">Key</div>
+          <div className="table-header-column">Value</div>
+        </div>
         {this.props.rows.map(r => <TableRow {...r} />)}
         {this.props.rows.length === 0 &&
           <div className="no-rows">No rows found</div>}
