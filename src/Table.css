@@ -1,0 +1,17 @@
+.table {
+}
+
+.table-header {
+  border-bottom: 2px solid black;
+  margin-bottom: 1rem;
+}
+
+.table-footer {
+  margin-top: 1rem;
+}
+
+.no-rows {
+  color: #c0c0c0;
+  font-style: italic;
+  text-align: center;
+}
