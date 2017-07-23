@@ -1,9 +1,12 @@
 .App {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
   height: 100%;
   width: 100%;
+}
+
+header {
+  height: 175px;
+  display: block;
+  background-color: #2b3e50;
 }
 
 .App-header {
@@ -25,10 +28,4 @@
 .container {
   width: 750px;
   margin: 0 auto;
-}
-
-header {
-  height: 175px;
-  display: block;
-  background-color: #2b3e50;
 }

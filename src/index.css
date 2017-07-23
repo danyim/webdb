@@ -24,8 +24,9 @@ button {
   background-color: transparent;
   transition: 0.5s all;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.5rem 1.5rem;
   margin: 0 0.25rem;
+  border-radius: 0.3rem;
 }
 
 button:hover,
@@ -37,7 +38,7 @@ input[type="text"] {
   font-size: 1.0rem;
   outline: 0;
   border: 1px solid transparent;
-  border-bottom-color: black;
+  border-bottom-color: #c0c0c0;
   background-color: transparent;
   transition: 0.2s all;
   padding: 0.5rem;
@@ -49,5 +50,20 @@ input[type="text"]:hover {
 }
 
 input[type="text"]:focus {
-  /* border-color: black; */
+  border-bottom-color: black;
+}
+
+label {
+  display: block;
+  margin: 1rem;
+}
+
+label span {
+  font-size: 1rem;
+  font-weight: bold;
+  width: 180px;
+  display: inline-block;
+  text-align: right;
+  padding: 1rem;
+  padding-bottom: 0;
 }

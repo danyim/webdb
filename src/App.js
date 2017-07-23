@@ -13,7 +13,7 @@ class App extends Component {
     this.state = {
       console: ['Initialized console.'],
       items: [],
-      dbName: 'Test'
+      dbName: 'WebDB'
     }
   }
 
@@ -43,25 +43,39 @@ class App extends Component {
     })
   }
 
-  init = (dbName, objectStoreName = 'Test') => {
-    this.log(`Creating database '${dbName}'...`)
-    this.db = idb.open(dbName, 1, upgradeDb => {
-      if (!upgradeDb.objectStoreNames.contains(objectStoreName)) {
-        this.log(`Creating object store '${objectStoreName}' in '${dbName}'`)
-        upgradeDb.createObjectStore(objectStoreName, { keyPath: 'key' })
-      } else {
+  init = (dbName, objectStoreName) => {
+    if (!objectStoreName) {
+      this.log(`Error: Object store name can't be null`)
+      return false
+    }
+    this.log(`Creating '${objectStoreName}' in '${dbName}'...`)
+    this.db = idb
+      .open(dbName, 1, upgradeDb => {
+        console.log('in upgrade')
+        if (!upgradeDb.objectStoreNames.contains(objectStoreName)) {
+          upgradeDb.createObjectStore(objectStoreName, { keyPath: 'key' })
+          this.log(`Object store '${objectStoreName}' in '${dbName}' created!`)
+        } else {
+          this.log(
+            `Object store '${objectStoreName}' in '${dbName}' already exists!`
+          )
+        }
+      })
+      // .then(data => {
+      //   console.log(data)
+      // })
+      .catch(() => {
         this.log(
-          `Object store '${objectStoreName}' in '${dbName}' already exists!`
+          `Error creating object store '${objectStoreName}' in '${dbName}' created!`
         )
-      }
-    })
+      })
   }
 
   open = dbName => {
     return idb.open(dbName, 1)
   }
 
-  getAll = (dbName, objectStoreName = 'Test') => {
+  getAll = (dbName, objectStoreName) => {
     this.open(dbName)
       .then(db => {
         const tx = db.transaction(objectStoreName, 'readonly')
@@ -78,7 +92,16 @@ class App extends Component {
       })
   }
 
-  add = (dbName, data, objectStoreName = 'Test') => {
+  add = (dbName, objectStoreName, data) => {
+    if (
+      this.state.objectStoreName === objectStoreName &&
+      this.state.items.findIndex(v => v.key === data.key) >= 0
+    ) {
+      this.log(
+        `Write object failed. Key '${data.key}' exists in '${objectStoreName}'.`
+      )
+      return false
+    }
     this.open(dbName)
       .then(db => {
         const tx = db.transaction(objectStoreName, 'readwrite')
@@ -86,7 +109,9 @@ class App extends Component {
         const item = {
           ...data
         }
-        this.log(`Writing an object to '${objectStoreName}' in '${dbName}'...`)
+        this.log(
+          `Trying to write an object to '${objectStoreName}' in '${dbName}'...`
+        )
         store.add(item)
         return tx.complete
       })
@@ -98,7 +123,7 @@ class App extends Component {
       })
   }
 
-  clear = (dbName, objectStoreName = 'Test') => {
+  clear = (dbName, objectStoreName) => {
     if (!confirm('Are you sure?')) return
     this.open(dbName)
       .then(db => {
@@ -142,18 +167,24 @@ class App extends Component {
             Check if IndexDB is supported
           </button>
           <p />
-          <input
-            name="dbName"
-            type="text"
-            placeholder="Database Name"
-            onChange={this.handleInputChange}
-          />
-          <input
-            name="objectStoreName"
-            type="text"
-            placeholder="Object Store Name"
-            onChange={this.handleInputChange}
-          />
+          <label htmlFor="dbName">
+            <span>Database Name</span>
+            <input
+              name="dbName"
+              type="text"
+              onChange={this.handleInputChange}
+              value="WebDB"
+            />
+          </label>
+
+          <label htmlFor="objectStoreName">
+            <span>Object Store Name</span>
+            <input
+              name="objectStoreName"
+              type="text"
+              onChange={this.handleInputChange}
+            />
+          </label>
           <button
             onClick={() => {
               this.init(this.state.dbName, this.state.objectStoreName)
@@ -170,22 +201,27 @@ class App extends Component {
           </button>
           <p />
 
-          <input
-            name="newObjectKey"
-            type="text"
-            placeholder="Key"
-            onChange={this.handleInputChange}
-          />
-          <input
-            name="newObjectValue"
-            type="text"
-            placeholder="Value"
-            onChange={this.handleInputChange}
-          />
+          <label htmlFor="newObjectKey">
+            <span>Key</span>
+            <input
+              name="newObjectKey"
+              type="text"
+              onChange={this.handleInputChange}
+            />
+          </label>
+
+          <label htmlFor="newObjectValue">
+            <span>Value</span>
+            <input
+              name="newObjectValue"
+              type="text"
+              onChange={this.handleInputChange}
+            />
+          </label>
 
           <button
             onClick={() => {
-              this.add(this.state.dbName, {
+              this.add(this.state.dbName, this.state.objectStoreName, {
                 key: this.state.newObjectKey,
                 value: this.state.newObjectValue
               })
