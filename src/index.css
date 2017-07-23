@@ -67,3 +67,7 @@ label span {
   padding: 1rem;
   padding-bottom: 0;
 }
+
+li {
+  margin: 0.7rem;
+}

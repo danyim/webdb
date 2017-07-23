@@ -2,11 +2,19 @@
 
 class WebDB {
   static checkIfSupported = () => {
+    const capabilities = {}
     if (!('indexedDB' in window)) {
-      console.err("This browser doesn't support IndexedDB")
-      return false
+      console.log("This browser doesn't support IndexedDB")
+      return null
     }
-    return true
+    capabilities.webkitGetDatabaseNames = !!indexedDB.webkitGetDatabaseNames
+
+    if (capabilities.webkitGetDatabaseNames) {
+      indexedDB.webkitGetDatabaseNames().onsuccess = function(sender, args) {
+        console.log(sender.target.result)
+      }
+    }
+    return capabilities
   }
 
   constructor() {

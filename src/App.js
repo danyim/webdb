@@ -26,8 +26,14 @@ class App extends Component {
   }
 
   handleCheck = () => {
-    if (WebDB.checkIfSupported()) {
-      this.log('IndexedDB is supported!')
+    const check = WebDB.checkIfSupported()
+    if (check) {
+      this.log(
+        'IndexedDB is supported.\r\n' +
+          Object.keys(check)
+            .map(v => `  ${v}: ${check[v] ? 'Supported' : 'Not Supported'}`)
+            .join(',')
+      )
     } else {
       this.log('IndexedDB is not supported.')
     }
