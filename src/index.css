@@ -7,6 +7,7 @@ body,
 #root {
   width: 100%;
   height: 100%;
+  background-color: #ecf0f1;
 }
 
 body {
@@ -20,7 +21,7 @@ button {
   font-size: 1.0rem;
   border: 1px solid #c0c0c0;
   outline: 0;
-  background-color: white;
+  background-color: transparent;
   transition: 0.5s all;
   cursor: pointer;
   padding: 0.5rem;
@@ -37,6 +38,7 @@ input[type="text"] {
   outline: 0;
   border: 1px solid transparent;
   border-bottom-color: black;
+  background-color: transparent;
   transition: 0.2s all;
   padding: 0.5rem;
   margin-right: 0.5rem;

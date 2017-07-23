@@ -44,11 +44,15 @@ class App extends Component {
   }
 
   init = (dbName, objectStoreName = 'Test') => {
-    this.log(`Creating database '${dbName}'`)
+    this.log(`Creating database '${dbName}'...`)
     this.db = idb.open(dbName, 1, upgradeDb => {
       if (!upgradeDb.objectStoreNames.contains(objectStoreName)) {
         this.log(`Creating object store '${objectStoreName}' in '${dbName}'`)
         upgradeDb.createObjectStore(objectStoreName, { keyPath: 'key' })
+      } else {
+        this.log(
+          `Object store '${objectStoreName}' in '${dbName}' already exists!`
+        )
       }
     })
   }
@@ -111,10 +115,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="container">
-          <div className="App-header">
-            <h2>WebDB in Preact</h2>
+        <header>
+          <div className="container">
+            <div className="App-header">
+              <h2>WebDB in Preact</h2>
+            </div>
           </div>
+        </header>
+        <div className="container">
           <p>
             <strong>IndexedDB</strong> is an indexed NoSQL key-value store that
             follows the{' '}
@@ -143,19 +151,19 @@ class App extends Component {
           <input
             name="objectStoreName"
             type="text"
-            placeholder="Store Name"
+            placeholder="Object Store Name"
             onChange={this.handleInputChange}
           />
           <button
             onClick={() => {
-              this.init(this.state.dbName)
+              this.init(this.state.dbName, this.state.objectStoreName)
             }}
           >
             Create DB
           </button>
           <button
             onClick={() => {
-              this.getAll(this.state.dbName)
+              this.getAll(this.state.dbName, this.state.objectStoreName)
             }}
           >
             Fetch all data
