@@ -3,16 +3,25 @@
 
 .table-header {
   border-bottom: 2px solid black;
-  margin-bottom: 1rem;
   display: flex;
   flex-flow: row nowrap;
   font-weight: bold;
-  padding: .5rem;
+  padding: 0.5rem 1rem;
 }
 
 .table-header-column,
 .table-column {
-  flex: 1 1 auto;
+  flex: 1 1 50%;
+}
+
+.table-row {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 0.5rem 1rem;
+}
+
+.table .table-row:nth-child(2n + 1) {
+  background-color: rgba(200, 200, 200, 0.3);
 }
 
 .table-footer {
@@ -23,4 +32,5 @@
   color: #c0c0c0;
   font-style: italic;
   text-align: center;
+  margin: 1rem 0;
 }

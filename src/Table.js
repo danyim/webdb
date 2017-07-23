@@ -21,7 +21,7 @@ class Table extends Component {
           <div className="table-header-column">Key</div>
           <div className="table-header-column">Value</div>
         </div>
-        {this.props.rows.map(r => <TableRow {...r} />)}
+        {this.props.rows.map(r => <TableRow keyName={r.key} value={r.value} />)}
         {this.props.rows.length === 0 &&
           <div className="no-rows">No rows found</div>}
         <div className="table-footer" />

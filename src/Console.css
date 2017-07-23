@@ -6,4 +6,6 @@
   padding: 1rem;
   margin: 1rem 0;
   background-color: rgba(0, 0, 0, 0.05);
+  height: 300px;
+  overflow-y: scroll;
 }

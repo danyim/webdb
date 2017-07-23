@@ -48,7 +48,7 @@ class App extends Component {
     this.db = idb.open(dbName, 1, upgradeDb => {
       if (!upgradeDb.objectStoreNames.contains(objectStoreName)) {
         this.log(`Creating object store '${objectStoreName}' in '${dbName}'`)
-        upgradeDb.createObjectStore(objectStoreName, { keyPath: 'name' })
+        upgradeDb.createObjectStore(objectStoreName, { keyPath: 'key' })
       }
     })
   }
@@ -70,6 +70,7 @@ class App extends Component {
       .then(items => {
         this.log(`    ${items.length} objects returned`)
         this.setState({ items })
+        console.log('Fetching items', items)
       })
   }
 
@@ -87,6 +88,9 @@ class App extends Component {
       })
       .then(() => {
         this.getAll(dbName, objectStoreName)
+      })
+      .catch(err => {
+        console.log('Error', err)
       })
   }
 
@@ -174,7 +178,7 @@ class App extends Component {
           <button
             onClick={() => {
               this.add(this.state.dbName, {
-                name: this.state.newObjectKey,
+                key: this.state.newObjectKey,
                 value: this.state.newObjectValue
               })
             }}
@@ -191,9 +195,13 @@ class App extends Component {
           >
             Clear DB
           </button>
+
           <p />
+
           <Table rows={this.state.items} />
+
           <Console data={this.state.console} />
+
           <h2>Resources</h2>
           <ul>
             <li>
