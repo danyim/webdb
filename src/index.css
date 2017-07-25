@@ -34,6 +34,12 @@ button:focus {
   border: 1px solid black;
 }
 
+button:disabled,
+button:disabled:hover {
+  color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
 input[type="text"] {
   font-size: 1.0rem;
   outline: 0;

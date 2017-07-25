@@ -13,7 +13,8 @@ class App extends Component {
     this.state = {
       console: ['Initialized console.'],
       items: [],
-      dbName: 'WebDB'
+      dbName: 'WebDB',
+      objectStoreName: ''
     }
   }
 
@@ -50,7 +51,7 @@ class App extends Component {
   }
 
   init = (dbName, objectStoreName) => {
-    if (!objectStoreName) {
+    if (dbName === '' || objectStoreName === '') {
       this.log(`Error: Object store name can't be null`)
       return false
     }
@@ -179,7 +180,7 @@ class App extends Component {
               name="dbName"
               type="text"
               onChange={this.handleInputChange}
-              value="WebDB"
+              defaultValue={this.state.dbName}
             />
           </label>
 
@@ -188,10 +189,14 @@ class App extends Component {
             <input
               name="objectStoreName"
               type="text"
+              defaultValue={this.state.objectStoreName}
               onChange={this.handleInputChange}
             />
           </label>
           <button
+            disabled={
+              this.state.dbName === '' || this.state.objectStoreName === ''
+            }
             onClick={() => {
               this.init(this.state.dbName, this.state.objectStoreName)
             }}
