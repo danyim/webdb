@@ -55,10 +55,9 @@ class App extends Component {
       this.log(`Error: Object store name can't be null`)
       return false
     }
-    this.log(`Creating '${objectStoreName}' in '${dbName}'...`)
+    this.log(`Attempting to create '${objectStoreName}' in '${dbName}'...`)
     this.db = idb
       .open(dbName, 1, upgradeDb => {
-        console.log('in upgrade')
         if (!upgradeDb.objectStoreNames.contains(objectStoreName)) {
           upgradeDb.createObjectStore(objectStoreName, { keyPath: 'key' })
           this.log(`Object store '${objectStoreName}' in '${dbName}' created!`)
@@ -68,12 +67,15 @@ class App extends Component {
           )
         }
       })
-      // .then(data => {
-      //   console.log(data)
-      // })
+      .then(data => {
+        console.log('AFter upgrade:', data)
+        this.log(
+          `Database '${dbName}' already exists with the following objects ${upgradeDb.objectStoreNames}`
+        )
+      })
       .catch(() => {
         this.log(
-          `Error creating object store '${objectStoreName}' in '${dbName}' created!`
+          `Error creating object store '${objectStoreName}' in '${dbName}'`
         )
       })
   }
